@@ -104,7 +104,7 @@ public class SingleLinkedList<E> implements Iterable<E> {
         size++;
     }
 
-    public E remove(int index) { // ta bort sista elementet?
+    public E remove(int index) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
         }
