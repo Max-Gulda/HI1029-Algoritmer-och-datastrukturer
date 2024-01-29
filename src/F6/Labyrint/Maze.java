@@ -14,7 +14,7 @@ public class Maze {
 	
 	public Maze(){
 		try{
-			BufferedReader in = new BufferedReader(new FileReader("Labyrint.txt"));
+			BufferedReader in = new BufferedReader(new FileReader("src/F6/Labyrint/Labyrint3.txt"));
 			rows = Integer.parseInt(in.readLine())+2;
 			columns = Integer.parseInt(in.readLine())+2;
 			mazeMatrix = new Cell[rows][columns];
@@ -57,14 +57,45 @@ public class Maze {
 		public boolean equals(Position p){
 			return (row==p.row&&column==p.column);
 		}
+
+		@Override
+		public String toString(){
+			return "Row : " + Integer.toString(row) + "Col : " + Integer.toString(columns);
+		}
 	}
 	
-	//public boolean solve(){
-	//	return solve(currentP);
-	//}
-	//private boolean solve(Position p){
-	//	//algoritm f�r att hitta m�let fr�n ruta p
-	//}
+	public boolean solve(){
+		return solve(currentP);
+	}
+	private boolean solve(Position p){
+		if (p.equals(goal)) {
+			mazeMatrix[p.row][p.column] = Cell.CORRECT;
+			return true;
+		}
+		if(mazeMatrix[p.row][p.column] == Cell.VISITED || mazeMatrix[p.row][p.column] == Cell.WALL) return false;
+
+		mazeMatrix[p.row][p.column] = Cell.VISITED;
+
+		if(solve(new Position(p.row+1,p.column))){ //Move down
+			mazeMatrix[p.row+1][p.column] = Cell.CORRECT;
+			return true;
+		}
+		if(solve(new Position(p.row,p.column+1))){ //Move right
+			mazeMatrix[p.row][p.column+1] = Cell.CORRECT;
+			return true;
+		}
+		if(solve(new Position(p.row-1,p.column))){ //Move up
+			mazeMatrix[p.row-1][p.column] = Cell.CORRECT;
+			return true;
+		}
+		if(solve(new Position(p.row,p.column-1))){ //Move left
+			mazeMatrix[p.row][p.column-1] = Cell.CORRECT;
+			return true;
+		}
+
+		//mazeMatrix[p.row][p.column] = Cell.OPEN;
+		return false;
+	}
 	
 	public void print(){
 		for(int i=1;i<rows-1;i++){

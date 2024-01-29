@@ -52,6 +52,11 @@ public class SingleLinkedList<E> implements Iterable<E>{
             this.data = data;
             this.next = next;
         }
+
+        @Override
+        public String toString(){
+            return data.toString();
+        }
     }
 
     private int size;
@@ -77,28 +82,28 @@ public class SingleLinkedList<E> implements Iterable<E>{
         size++;
     }
 
-    private Node<E> getNodeRec(Node<E> current, int index){
-        if (current == null || index < 0) return null;
-        if (index == 0) return current;
-        return getNodeRec(current.next, index - 1);
+    public Node<E> getNode(int index){
+        return getNode(head, index);
     }
 
-    private Node<E> getNode(int index){
-        return getNodeRec(head,index);
+    private Node<E> getNode(Node<E> current, int index){
+        if (index < 0 || current == null) throw new NoSuchElementException();
+        if (index == 0) return current;
+        return getNode(current.next, index - 1);
+    }
+
+    public int size(){
+        return sizeRec(head,0);
+    }
+
+    private int sizeRec(Node<E> current, int currentSize){
+        if(current == null) return currentSize;
+        return sizeRec(current.next, currentSize + 1);
     }
 
     private void addAfter(Node<E> node, E item){
         node.next = new Node<>(item,node.next);
         size++;
-    }
-
-    public int size(){
-        return sizeRec(head, 0);
-    }
-
-    private int sizeRec(Node<E> current, int currentSize){
-        if (current == null) return currentSize;
-        return sizeRec(current.next, currentSize + 1);
     }
 
     public boolean add(E item){

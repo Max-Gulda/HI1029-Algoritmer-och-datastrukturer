@@ -6,13 +6,6 @@ import java.util.Queue;
 public class CoinMachine {
     private CoinMachine(){}
 
-    private static class State {
-        public int moneySpent,currentPoints;
-        public State(int m, int p){
-            moneySpent = m;
-            currentPoints = p;
-        }
-    }
 
     public static int machine(int points){
         int result = theMachine(1, points, 0);
@@ -29,16 +22,27 @@ public class CoinMachine {
         return Math.min(addTen, addFive);
     }
 
-    public static int machineImproved(int points){
-        Queue<State> q = new LinkedList<>();
-        q.offer(new State(0, 1));
-        while(!q.isEmpty()){
-            State s = q.poll();
-            if(s.currentPoints == points) return s.moneySpent;
-            if(s.currentPoints > points) continue;
-            q.offer(new State(s.moneySpent + 10, s.currentPoints * 3));
-            q.offer(new State(s.moneySpent + 5, s.currentPoints + 4));
+    public static int theMachineImproved(int pointsToReach){
+        //if(currentPoints == pointsToReach) return moneySpent;
+        Queue<machine> queue = new LinkedList<>();
+        queue.offer(new machine(1,0));
+        machine scenario;
+        while(!queue.isEmpty()){
+            scenario = queue.poll();
+            if(scenario.currentPoints == pointsToReach) return scenario.moneySpent;
+            if(scenario.currentPoints > pointsToReach) continue;
+            queue.offer(new machine(scenario.currentPoints * 3, scenario.moneySpent + 10));
+            queue.offer(new machine(scenario.currentPoints + 4,  scenario.moneySpent + 5));
         }
         return -1;
+    }
+
+    private static class machine{
+        public int currentPoints,  moneySpent;
+
+        public machine(int currentPoints, int moneySpent) {
+            this.currentPoints = currentPoints;
+            this.moneySpent = moneySpent;
+        }
     }
 }

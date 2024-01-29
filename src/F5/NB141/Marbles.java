@@ -19,5 +19,4 @@ public class Marbles {
         return Math.min(Math.min(swapBlue, swapWhite), swapRed);
     }
 
-
 }
