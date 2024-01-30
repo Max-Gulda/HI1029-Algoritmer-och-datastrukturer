@@ -26,8 +26,10 @@ public class Marbles {
                 board[i+1] = Marble.BLACK;
                 board[i] = Marble.EMPTY;
                 moves.add(i + "->" + (i+1) +", ");
+
                 //recursive call
                 solve(board,moves);
+
                 //backtrack
                 moves.remove(moves.size() - 1);
                 board[i+1] = Marble.EMPTY;
@@ -38,8 +40,10 @@ public class Marbles {
                 board[i+2] = Marble.BLACK;
                 board[i] = Marble.EMPTY;
                 moves.add(i + "->" + (i+2) +", ");
+
                 //recursive call
                 solve(board,moves);
+
                 //backtrack
                 moves.remove(moves.size() - 1);
                 board[i+2] = Marble.EMPTY;
@@ -50,8 +54,10 @@ public class Marbles {
                 board[i-1] = Marble.WHITE;
                 board[i] = Marble.EMPTY;
                 moves.add(i + "->" + (i-1) +", ");
+
                 //recursive call
                 solve(board,moves);
+
                 //backtrack
                 moves.remove(moves.size() - 1);
                 board[i-1] = Marble.EMPTY;
@@ -62,8 +68,10 @@ public class Marbles {
                 board[i-2] = Marble.WHITE;
                 board[i] = Marble.EMPTY;
                 moves.add(i + "->" + (i-2) +", ");
+
                 //recursive call
                 solve(board,moves);
+
                 //backtrack
                 moves.remove(moves.size() - 1);
                 board[i-2] = Marble.EMPTY;

@@ -10,7 +10,8 @@ public class CoinMachineMain {
             System.out.print("Vilken poäng ska uppnås: ");
             points = scan.nextInt();
             int result = CoinMachine.machine(points);
-            if(result >= 0) System.out.println("Poängen kan uppnås med: " + result);
+            int result2 = CoinMachine.theMachine2(1,points);
+            if(result >= 0) System.out.println("Poängen kan uppnås med: " + result + " eller med räknesätt 2: " + result2);
             else System.out.println("Poängen går ej att uppnå!");
 
         }

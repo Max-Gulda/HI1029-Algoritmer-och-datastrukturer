@@ -22,6 +22,8 @@ public class Airport {
         int takeoffWaitTime = 0;
         int nextAvailableTime = 0;
 
+        int maxWaitTime = Integer.MIN_VALUE;
+
         landingQueue = new LinkedList<>();
         takeOffQueue = new LinkedList<>();
 
@@ -29,22 +31,26 @@ public class Airport {
         Random rand = new Random();
 
         while(currentTime < simulationDuration) {
-            if(rand.nextDouble() < LANDING_PROBABILITY){
+            if(rand.nextDouble() < LANDING_PROBABILITY/*currentTime==1*/){
                 landingQueue.offer(currentTime);
             }
-            if(rand.nextDouble() < TAKEOFF_PROBABILITY){
+            if(rand.nextDouble() < TAKEOFF_PROBABILITY/*currentTime== 2*/){
                 takeOffQueue.offer(currentTime);
             }
             if(!landingQueue.isEmpty() && currentTime >= nextAvailableTime){
                 int planeArrivalTime = landingQueue.poll();
                 landings++;
-                landingWaitTime += currentTime - planeArrivalTime;
+                int waitTime = currentTime - planeArrivalTime;
+                landingWaitTime += waitTime;
                 nextAvailableTime = currentTime + LANDING_TIME;
+                if(waitTime>maxWaitTime) maxWaitTime = waitTime;
             } else if (!takeOffQueue.isEmpty() && currentTime >= nextAvailableTime) {
                 int planeArrivalTime = takeOffQueue.poll();
                 takeoffs++;
-                takeoffWaitTime += currentTime - planeArrivalTime;
+                int waitTime = currentTime - planeArrivalTime;
+                takeoffWaitTime += waitTime;
                 nextAvailableTime = currentTime + TAKEOFF_TIME;
+                if(waitTime>maxWaitTime) maxWaitTime = waitTime;
             }
             currentTime++;
         }
@@ -53,6 +59,7 @@ public class Airport {
 
         System.out.println("Genomsnittlig väntetid för landning: " + averageLandWait + " min");
         System.out.println("Genomsnittlig väntetid för start: " + averageLiftWait + " min");
+        System.out.println("Max väntetid = " + maxWaitTime * 5);
     }
     public static void main(String[] args) {
         airportSimulation(10);
