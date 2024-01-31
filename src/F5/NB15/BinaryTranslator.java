@@ -1,7 +1,5 @@
 package F5.NB15;
 
-import java.util.Scanner;
-
 public class BinaryTranslator {
     private BinaryTranslator(){}
 

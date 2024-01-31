@@ -59,7 +59,7 @@ public class Airport {
 
         System.out.println("Genomsnittlig väntetid för landning: " + averageLandWait + " min");
         System.out.println("Genomsnittlig väntetid för start: " + averageLiftWait + " min");
-        System.out.println("Max väntetid = " + maxWaitTime * 5);
+        System.out.println("Max väntetid: " + (maxWaitTime * 5) + " min");
     }
     public static void main(String[] args) {
         airportSimulation(10);
