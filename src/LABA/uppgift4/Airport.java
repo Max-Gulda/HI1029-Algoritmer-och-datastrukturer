@@ -13,8 +13,7 @@ public class Airport {
     private static final int LANDING_TIME = 20 / 5;
     private static final int TAKEOFF_TIME = 20 / 5;
 
-    public static void airportSimulation(int years){
-
+    public static void airportSimulation(int years) {
         int currentTime = 0;
         int landings = 0;
         int takeoffs = 0;
@@ -30,37 +29,38 @@ public class Airport {
         int simulationDuration = years * CONVERT_YEAR_TO_5_MINUTES_INTERVALS;
         Random rand = new Random();
 
-        while(currentTime < simulationDuration) {
-            if(rand.nextDouble() < LANDING_PROBABILITY/*currentTime==1*/){
+        while (currentTime < simulationDuration) {
+            if (rand.nextDouble() < LANDING_PROBABILITY) {
                 landingQueue.offer(currentTime);
             }
-            if(rand.nextDouble() < TAKEOFF_PROBABILITY/*currentTime== 2*/){
+            if (rand.nextDouble() < TAKEOFF_PROBABILITY) {
                 takeOffQueue.offer(currentTime);
             }
-            if(!landingQueue.isEmpty() && currentTime >= nextAvailableTime){
+            if (!landingQueue.isEmpty() && currentTime >= nextAvailableTime) {
                 int planeArrivalTime = landingQueue.poll();
                 landings++;
                 int waitTime = currentTime - planeArrivalTime;
                 landingWaitTime += waitTime;
                 nextAvailableTime = currentTime + LANDING_TIME;
-                if(waitTime>maxWaitTime) maxWaitTime = waitTime;
+                if (waitTime > maxWaitTime) maxWaitTime = waitTime;
             } else if (!takeOffQueue.isEmpty() && currentTime >= nextAvailableTime) {
                 int planeArrivalTime = takeOffQueue.poll();
                 takeoffs++;
                 int waitTime = currentTime - planeArrivalTime;
                 takeoffWaitTime += waitTime;
                 nextAvailableTime = currentTime + TAKEOFF_TIME;
-                if(waitTime>maxWaitTime) maxWaitTime = waitTime;
+                if (waitTime > maxWaitTime) maxWaitTime = waitTime;
             }
             currentTime++;
         }
-        double averageLiftWait = ((double)takeoffWaitTime / takeoffs) * 5;
-        double averageLandWait = ((double)landingWaitTime / landings) * 5;
+        double averageLiftWait = ((double) takeoffWaitTime / takeoffs) * 5;
+        double averageLandWait = ((double) landingWaitTime / landings) * 5;
 
         System.out.println("Genomsnittlig väntetid för landning: " + averageLandWait + " min");
         System.out.println("Genomsnittlig väntetid för start: " + averageLiftWait + " min");
         System.out.println("Max väntetid: " + (maxWaitTime * 5) + " min");
     }
+
     public static void main(String[] args) {
         airportSimulation(10);
     }
