@@ -21,7 +21,8 @@ public class Airport {
         int takeoffWaitTime = 0;
         int nextAvailableTime = 0;
 
-        int maxWaitTime = Integer.MIN_VALUE;
+        int maxWaitTimeTakeOff = Integer.MIN_VALUE;
+        int maxWaitTimeLanding = Integer.MIN_VALUE;
 
         landingQueue = new LinkedList<>();
         takeOffQueue = new LinkedList<>();
@@ -42,14 +43,14 @@ public class Airport {
                 int waitTime = currentTime - planeArrivalTime;
                 landingWaitTime += waitTime;
                 nextAvailableTime = currentTime + LANDING_TIME;
-                if (waitTime > maxWaitTime) maxWaitTime = waitTime;
+                if (waitTime > maxWaitTimeLanding) maxWaitTimeLanding = waitTime;
             } else if (!takeOffQueue.isEmpty() && currentTime >= nextAvailableTime) {
                 int planeArrivalTime = takeOffQueue.poll();
                 takeoffs++;
                 int waitTime = currentTime - planeArrivalTime;
                 takeoffWaitTime += waitTime;
                 nextAvailableTime = currentTime + TAKEOFF_TIME;
-                if (waitTime > maxWaitTime) maxWaitTime = waitTime;
+                if (waitTime > maxWaitTimeTakeOff) maxWaitTimeTakeOff = waitTime;
             }
             currentTime++;
         }
@@ -58,7 +59,8 @@ public class Airport {
 
         System.out.println("Genomsnittlig väntetid för landning: " + averageLandWait + " min");
         System.out.println("Genomsnittlig väntetid för start: " + averageLiftWait + " min");
-        System.out.println("Max väntetid: " + (maxWaitTime * 5) + " min");
+        System.out.println("Max väntetid för plan som landar: " + (maxWaitTimeLanding * 5) + " min");
+        System.out.println("Max väntetid för plan som lyfter: " + (maxWaitTimeTakeOff * 5) + " min");
     }
 
     public static void main(String[] args) {

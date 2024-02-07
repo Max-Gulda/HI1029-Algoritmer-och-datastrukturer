@@ -22,27 +22,13 @@ public class Checkers {
         solve(board, 0, 0);
     }
 
-    static boolean hasKnightMove(int rad, int col) {
-        int[][] knightMoves = { {-2, -1}, {-1, -2}, {-2, 1}, {-1, 2}, {1, -2}, {2, -1}, {1, 2}, {2, 1} };
-
-        for (int[] move : knightMoves) {
-            int newRow = rad + move[0];
-            int newCol = col + move[1];
-
-            if (newRow >= 0 && newRow < board.length && newCol >= 0 && newCol < board.length && board[newRow][newCol]) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     private static void solve(boolean[][] board, int queensPlaced,int row){
         if(queensPlaced == board.length){ //Won?
             printGrid(board);
         }else{
 
             for(int col = 0; col < board.length; col++) {
-                if (diagonalNorthEast[row + col] && diagonalNorthWest[(row - col) + board.length - 1] && columnFree[col] && !hasKnightMove(row, col)) { //update state
+                if (diagonalNorthEast[row + col] && diagonalNorthWest[(row - col) + board.length - 1] && columnFree[col] ) { //update state
                     board[row][col] = true;
                     columnFree[col] = false;
                     diagonalNorthEast[row + col] = false;

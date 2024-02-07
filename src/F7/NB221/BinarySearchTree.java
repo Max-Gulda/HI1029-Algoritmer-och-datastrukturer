@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class BinarySearchTree<E extends Comparable<E>> {
-
     private static class Node<E> {
         private Node<E> left, right;
         private E data;
@@ -103,7 +102,6 @@ public class BinarySearchTree<E extends Comparable<E>> {
         Node<E> node;
         int level;
         StringBuilder sb = new StringBuilder();
-        int children = 0;
         while (!queue.isEmpty()) {
             node = queue.poll();
             level = levelQueue.poll();

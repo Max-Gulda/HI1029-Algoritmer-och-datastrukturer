@@ -8,22 +8,26 @@ public class robot {
     private static class Task {
         public char[] array;
         public int nrOfMoves;
-
-        public Task(char[] array, int nrOfMoves) {
+        public String moves;
+        public Task(char[] array, int nrOfMoves, String moves) {
             this.array = array;
             this.nrOfMoves = nrOfMoves;
+            this.moves = moves;
         }
     }
     public static int orderPackages(char[] packages) {
         Queue<Task> queue = new LinkedList<>();
-        queue.offer(new Task(packages, 0));
+        queue.offer(new Task(packages, 0, ""));
         Task task;
         while (!queue.isEmpty()) {
             task = queue.poll();
-            if (isCorrect(task.array)) return task.nrOfMoves;
+            if (isCorrect(task.array)){
+                System.out.println(task.moves);
+                return task.nrOfMoves;
+            }
             if (task.nrOfMoves > 15) break;
-            queue.offer(new Task(swapFirst(task.array), task.nrOfMoves + 1));
-            queue.offer(new Task(putLastFirst(task.array), task.nrOfMoves + 1));
+            queue.offer(new Task(swapFirst(task.array), task.nrOfMoves + 1, task.moves + "B"));
+            queue.offer(new Task(putLastFirst(task.array), task.nrOfMoves + 1, task.moves + "S"));
         }
         return -1;
     }
