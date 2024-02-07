@@ -31,10 +31,10 @@ public class Airport {
         Random rand = new Random();
 
         while (currentTime < simulationDuration) {
-            if (rand.nextDouble() < LANDING_PROBABILITY) {
+            if (rand.nextDouble() <= LANDING_PROBABILITY) {
                 landingQueue.offer(currentTime);
             }
-            if (rand.nextDouble() < TAKEOFF_PROBABILITY) {
+            if (rand.nextDouble() <= TAKEOFF_PROBABILITY) {
                 takeOffQueue.offer(currentTime);
             }
             if (!landingQueue.isEmpty() && currentTime >= nextAvailableTime) {
@@ -56,11 +56,14 @@ public class Airport {
         }
         double averageLiftWait = ((double) takeoffWaitTime / takeoffs) * 5;
         double averageLandWait = ((double) landingWaitTime / landings) * 5;
+        maxWaitTimeLanding *= 5;
+        maxWaitTimeTakeOff *= 5;
+
 
         System.out.println("Genomsnittlig väntetid för landning: " + averageLandWait + " min");
         System.out.println("Genomsnittlig väntetid för start: " + averageLiftWait + " min");
-        System.out.println("Max väntetid för plan som landar: " + (maxWaitTimeLanding * 5) + " min");
-        System.out.println("Max väntetid för plan som lyfter: " + (maxWaitTimeTakeOff * 5) + " min");
+        System.out.println("Max väntetid för plan som landar: " + maxWaitTimeLanding + " min");
+        System.out.println("Max väntetid för plan som lyfter: " + maxWaitTimeTakeOff + " min");
     }
 
     public static void main(String[] args) {
