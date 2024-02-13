@@ -18,22 +18,21 @@ public class mergeSort {
     }
 
 
-    private static void merge(int[] a, int[] b, int[] c) {
-        int indexA = 0, indexB = 0, indexC = 0;
-        while (indexC < c.length && indexB < b.length) {
-            if (c[indexC] <= b[indexB]) {
-                a[indexA++] = c[indexC++];
+    private static void merge(int[] result, int[] b, int[] a) {
+        int indexResult = 0, indexB = 0, indexA = 0;
+        while (indexA < a.length && indexB < b.length) {
+            if (a[indexA] <= b[indexB]) {
+                result[indexResult++] = a[indexA++];
             } else {
-                a[indexA++] = b[indexB++];
+                result[indexResult++] = b[indexB++];
             }
         }
-
-        while (indexC < c.length) {
-            a[indexA++] = c[indexC++];
+        while (indexA < a.length) {
+            result[indexResult++] = a[indexA++];
         }
 
         while (indexB < b.length) {
-            a[indexA++] = b[indexB++];
+            result[indexResult++] = b[indexB++];
         }
     }
 
