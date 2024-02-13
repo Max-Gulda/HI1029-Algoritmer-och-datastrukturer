@@ -4,34 +4,28 @@ public class robot {
 
     private robot() {
     }
-    private static int orderPackages(char[] packages, int nrOfMoves, StringBuilder sb, StringBuilder bestSequence) {
+
+    private static String orderPackages(char[] packages, StringBuilder sb) {
         if (isCorrect(packages)) {
-            if (bestSequence.length() == 0 || sb.length() < bestSequence.length()) {
-                bestSequence.setLength(0);
-                bestSequence.append(sb);
-            }
-            return nrOfMoves;
+            return sb.toString(); // Return the sequence if the packages are ordered
         }
-        if (nrOfMoves >= 15) return Integer.MAX_VALUE / 2;
+        if (sb.length() >= 15) return null; // Terminate if the sequence is too long
 
-        int moves = Integer.MAX_VALUE / 2;
+        // Explore both options and return the best result
+        String resultSwap = orderPackages(swapFirst(packages.clone()), new StringBuilder(sb).append("b"));
+        String resultPutLast = orderPackages(putLastFirst(packages.clone()), new StringBuilder(sb).append("s"));
 
-        StringBuilder sbSwap = new StringBuilder(sb);
-        sbSwap.append("b");
-        moves = Math.min(moves, orderPackages(swapFirst(packages.clone()), nrOfMoves + 1, sbSwap, bestSequence));
-
-        StringBuilder sbPutLast = new StringBuilder(sb);
-        sbPutLast.append("s");
-        moves = Math.min(moves, orderPackages(putLastFirst(packages.clone()), nrOfMoves + 1, sbPutLast, bestSequence));
-
-        return moves;
+        return resultSwap != null && (resultPutLast == null || resultSwap.length() < resultPutLast.length())
+                ? resultSwap : resultPutLast;
     }
 
     public static String orderPackages(char[] packages) {
-        StringBuilder sb = new StringBuilder();
-        StringBuilder bestSequence = new StringBuilder();
-        orderPackages(packages, 0, sb, bestSequence);
-        return bestSequence.toString();
+        return orderPackages(packages, new StringBuilder());
+    }
+
+    public static String orderPackages(String letters) {
+        char[] temp = letters.toCharArray();
+        return orderPackages(temp);
     }
 
     private static boolean isCorrect(char[] packages) {
@@ -60,7 +54,21 @@ public class robot {
     }
 
     public static void main(String[] args) {
-        char[] packages = {'B', 'E', 'C', 'A', 'D'};
+        String packages = "EDCBA";
         System.out.println("Moves: " + orderPackages(packages));
+        //packages = "EBCAD";
+        //System.out.println("Moves: " + orderPackages(packages));
+        //packages = "DEBCA";
+        //System.out.println("Moves: " + orderPackages(packages));
+        //packages = "ADEBC";
+        //System.out.println("Moves: " + orderPackages(packages));
+        //packages = "CADEB";
+        //System.out.println("Moves: " + orderPackages(packages));
+        //packages = "ACDEB";
+        //System.out.println("Moves: " + orderPackages(packages));
+        //packages = "BACDE";
+        //System.out.println("Moves: " + orderPackages(packages));
+        //packages = "BACED";
+        //System.out.println("Moves: " + orderPackages(packages));
     }
 }

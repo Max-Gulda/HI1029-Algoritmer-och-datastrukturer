@@ -16,9 +16,27 @@ public class InsertionSort {
         return array;
     }
 
+    public static int[] shellSort(int[] a){
+        int gap = a.length/2;
+        while(gap > 0){
+            for(int i = gap; i < a.length; i++){
+                int data = a[i];
+                int dataIndex = i;
+                while (dataIndex > gap-1 && data < a[dataIndex-gap]){
+                    a[dataIndex] = a[dataIndex-gap];
+                    dataIndex-=gap;
+                }
+                a[dataIndex] = data;
+            }
+            if(gap == 2) gap = 1;
+            else gap /= 2.2;
+        }
+        return a;
+    }
+
     public static void main(String[] args) {
-        int[] array = {1, 2, 3, 6, 4, 3, 2, 8, 9, 6, 10};
-        sort(array);
+        int[] array = {2, 1, 4, 6};
+        shellSort(array);
         for (int element : array) {
             System.out.println(element);
         }

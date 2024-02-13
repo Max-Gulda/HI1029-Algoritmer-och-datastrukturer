@@ -25,8 +25,6 @@ public class StalinSort {
     public static void main(String[] args) {
         int[] array = {1,2,3,6,4,3,2,8,9,6,10};
         array = sort(array);
-        for(int element: array){
-            System.out.println(element);
-        }
+        System.out.println(Arrays.toString(array));
     }
 }

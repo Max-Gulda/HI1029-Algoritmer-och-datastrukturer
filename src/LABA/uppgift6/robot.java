@@ -8,8 +8,8 @@ public class robot {
     private static class Task {
         public char[] array;
         public int nrOfMoves;
-        public String moves;
-        public Task(char[] array, int nrOfMoves, String moves) {
+        public StringBuilder moves;
+        public Task(char[] array, int nrOfMoves, StringBuilder moves) {
             this.array = array;
             this.nrOfMoves = nrOfMoves;
             this.moves = moves;
@@ -17,17 +17,21 @@ public class robot {
     }
     public static int orderPackages(char[] packages) {
         Queue<Task> queue = new LinkedList<>();
-        queue.offer(new Task(packages, 0, ""));
+        queue.offer(new Task(packages, 0, new StringBuilder()));
         Task task;
         while (!queue.isEmpty()) {
             task = queue.poll();
             if (isCorrect(task.array)){
-                System.out.println(task.moves);
+                System.out.println(task.moves.toString());
                 return task.nrOfMoves;
             }
             if (task.nrOfMoves > 15) break;
-            queue.offer(new Task(swapFirst(task.array), task.nrOfMoves + 1, task.moves + "B"));
-            queue.offer(new Task(putLastFirst(task.array), task.nrOfMoves + 1, task.moves + "S"));
+            StringBuilder b = new StringBuilder(task.moves);
+            b.append("B");
+            StringBuilder s = new StringBuilder(task.moves);
+            s.append("S");
+            queue.offer(new Task(swapFirst(task.array), task.nrOfMoves + 1, b));
+            queue.offer(new Task(putLastFirst(task.array), task.nrOfMoves + 1, s));
         }
         return -1;
     }
@@ -64,12 +68,12 @@ public class robot {
 
 
     public static void main(String[] args) {
-        char[] packages = {'B', 'E', 'C', 'A', 'D'};
-        System.out.println("BECAD takes " + orderPackages(packages) + " number of moves");
+        char[] packages = {'E', 'D', 'C', 'B', 'A'};
+        System.out.println("EDCBA takes " + orderPackages(packages) + " number of moves\n");
 
-        packages = new char[]{'B', 'A', 'C', 'D', 'E'};
-        System.out.println("BACDE takes " + orderPackages(packages) + " number of moves");
-
-        System.out.println("ABCDE takes " + orderPackages("ABCDE") + " number of moves");
+        //packages = new char[]{'B', 'A', 'C', 'D', 'E'};
+        //System.out.println("BACDE takes " + orderPackages(packages) + " number of moves\n");
+//
+        //System.out.println("ABCDE takes " + orderPackages("ABCDE") + " number of moves\n");
     }
 }
