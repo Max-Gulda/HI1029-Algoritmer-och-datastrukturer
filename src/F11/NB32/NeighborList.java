@@ -3,11 +3,9 @@ package F11.NB32;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
-import java.util.stream.Collectors;
 
-public class grannlista {
+public class NeighborList {
     private HashMap<Character, List<Node>> adjacencyList;
-
     private class Node {
         public int to;
         public int cost;
@@ -18,7 +16,7 @@ public class grannlista {
         }
     }
 
-    public grannlista(String fileName) throws FileNotFoundException {
+    public NeighborList(String fileName) throws FileNotFoundException {
         adjacencyList = new HashMap<>();
         readGraphFromFile(fileName);
     }
@@ -103,9 +101,9 @@ public class grannlista {
     }
 
     public static void main(String[] args) throws FileNotFoundException {
-        grannlista g = new grannlista("src/F11/NB32/test.txt");
+        NeighborList g = new NeighborList("src/F11/NB32/test.txt");
         System.out.println(g);
-        System.out.println(g.shortestPath('A', 'C'));
+        System.out.println(g.shortestPath('A', 'B'));
 
     }
 
