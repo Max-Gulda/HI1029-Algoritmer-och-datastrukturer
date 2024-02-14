@@ -101,9 +101,9 @@ public class HeapMin<E extends Comparable<E>>{
         stringHeap.insert("Päron");
         stringHeap.insert("Äpple");
         stringHeap.insert("Banan");
-        stringHeap.insert("Druva");
-        stringHeap.insert("Clementin");
-        stringHeap.insert("Apelsin");
+        stringHeap.insert("Melon");
+        stringHeap.insert("Kiwi");
+        stringHeap.insert("Citron");
         stringHeap.insert("Mango");
 
         System.out.println("Heap innan extraktion: " + stringHeap);
