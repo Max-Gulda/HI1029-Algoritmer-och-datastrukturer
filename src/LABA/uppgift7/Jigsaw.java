@@ -1,5 +1,7 @@
 package LABA.uppgift7;
 
+import java.util.Arrays;
+
 public class Jigsaw {
     private enum orientation {NE, NW, SW, SE}
     private static int nrOfSolutions;
@@ -9,7 +11,6 @@ public class Jigsaw {
         nrOfSolutions = 0;
         initBoard(board);
         board[row - 1][col - 1] = 1;
-        StringBuilder sb = new StringBuilder();
         solveJigsaw(board, 1);
         System.out.println(nrOfSolutions + " number of solutions!");
     }
@@ -57,7 +58,8 @@ public class Jigsaw {
         if (board[row][col] != 0) return false;
 
         switch (ori) {
-            case NE -> {
+            case NE -> {/* x
+                           x x */
                 if (row == 0 || col == 4) return false;
                 if (board[row - 1][col] != 0 || board[row][col + 1] != 0) return false;
                 board[row - 1][col] = number;
@@ -119,14 +121,12 @@ public class Jigsaw {
     }
 
     private static void initBoard(int[][] board) {
-        for (int row = 0; row < 5; row++) {
-            for (int col = 0; col < 5; col++) {
-                board[row][col] = 0;
-            }
+        for (int row = 0; row < board.length; row++) {
+            Arrays.fill(board[row], 0);
         }
     }
 
     public static void main(String[] args) {
-        solveJigsaw(4, 5);
+        solveJigsaw(1, 1);
     }
 }

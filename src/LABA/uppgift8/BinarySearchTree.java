@@ -166,6 +166,10 @@ public class BinarySearchTree<E extends Comparable<E>> {
             return getNextLargest(node.right, data);
         }
     }
+    /*          8
+    *         4
+    *       2   6
+    *     1  3 5  7*/
 
     private void printTree(Node<E> node) {
         if(root == null) {
@@ -199,11 +203,15 @@ public class BinarySearchTree<E extends Comparable<E>> {
 
     public static void main(String[] args) {
         BinarySearchTree<Integer> bst = new BinarySearchTree<>();
+        bst.add(8);
+        bst.add(4);
+        bst.add(6);
         bst.add(5);
+        bst.add(7);
         bst.add(2);
         bst.add(1);
-        bst.add(8);
-        bst.add(12);
-        System.out.println("The number is : " + bst.getNextLargest(30));
+        bst.add(3);
+        bst.printTree();
+        System.out.println("The number is : " + bst.getNextLargest(4));
     }
 }

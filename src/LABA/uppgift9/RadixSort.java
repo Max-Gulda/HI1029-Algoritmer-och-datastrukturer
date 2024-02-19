@@ -12,11 +12,11 @@ public class RadixSort {
         while (maxNumber / place > 0) {
             int[] count = new int[10];
 
-            for (int i = 0; i < a.length; i++) {
+            for (int i = 0; i < a.length; i++) { //Maska ut & addera på platsen
                 count[(a[i] / place) % 10]++;
             }
 
-            for (int i = 1; i < 10; i++) {
+            for (int i = 1; i < 10; i++) { //Prefix summering
                 count[i] += count[i - 1];
             }
 
@@ -27,9 +27,7 @@ public class RadixSort {
 
             }
 
-            for (int i = 0; i < a.length; i++) {
-                a[i] = output[i];
-            }
+            System.arraycopy(output, 0, a, 0, a.length);
 
             place *= 10;
         }
@@ -43,17 +41,25 @@ public class RadixSort {
         return max;
     }
 
+    private static boolean isArraySorted(int[] a) {
+        for (int i = 1; i < a.length; i++) {
+            if (a[i] < a[i - 1]) return false;
+        }
+        return true;
+    }
 
     public static void main(String[] args) {
+        long startTime = System.nanoTime();
         Random rand = new Random();
-        int[] list = new int[20];
+        int[] list = new int[1000000];
         for (int i = 0; i < list.length; i++) {
-            list[i] = rand.nextInt(list.length * 10);
+            list[i] = rand.nextInt(Integer.MAX_VALUE);
         }
-        System.out.println("Array before sorting = " + Arrays.toString(list));
         radixSort(list);
-
-        System.out.println("Arrays after sorting = " + Arrays.toString(list));
-
+        long endTime = System.nanoTime();
+        double runningTime = (double) (endTime - startTime) / 1000000000;
+        if (isArraySorted(list)) System.out.println("Array is sorted!");
+        else System.out.println("Array is not sorted!");
+        System.out.println("Runtime took: " + runningTime + " s");
     }
 }
