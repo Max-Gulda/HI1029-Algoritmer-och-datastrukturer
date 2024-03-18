@@ -4,28 +4,34 @@ import java.util.Arrays;
 
 public class Jigsaw {
     private enum orientation {NE, NW, SW, SE}
+
     private static int nrOfSolutions;
+
     public static void solveJigsaw(int row, int col) {
         if (row < 1 || row > 5 || col < 1 || col > 5) throw new UnsupportedOperationException();
         int[][] board = new int[5][5];
         nrOfSolutions = 0;
         initBoard(board);
         board[row - 1][col - 1] = 1;
-        solveJigsaw(board, 1);
+        solveJigsaw(board, 1, 0, 0);
         System.out.println(nrOfSolutions + " number of solutions!");
     }
 
-    private static void solveJigsaw(int[][] board, int placedPieces) {
-        if (boardComplete(board)) {
+    private static void solveJigsaw(int[][] board, int placedPieces, int nextRow, int nextCol) {
+        if (placedPieces == 9) {
             printBoard(board);
             nrOfSolutions++;
+            return;
         }
-        for (int row = 0; row < 5; row++) {
-            for (int col = 0; col < 5; col++) {
-                for (orientation ori: orientation.values()){
-                    if (placePiece(row, col, ori, board, placedPieces + 1)) {
-                        solveJigsaw(board, placedPieces + 1);
-                        removePiece(row, col, ori, board);
+
+        for (int r = nextRow; r < 5; r++) {
+            for (int c = (r == nextRow ? nextCol : 0); c < 5; c++) {
+                for (orientation o : orientation.values()) {
+                    if (placePiece(r, c, o, board, placedPieces + 1)) {
+                        int nextR = (c + 1) / 5 + r;
+                        int nextC = (c + 1) % 5;
+                        solveJigsaw(board,placedPieces+1, nextR, nextC);
+                        removePiece(r,c,o,board);
                     }
                 }
             }
@@ -91,7 +97,6 @@ public class Jigsaw {
         }
         return true;
     }
-
 
 
     private static void removePiece(int row, int col, orientation ori, int[][] board) {

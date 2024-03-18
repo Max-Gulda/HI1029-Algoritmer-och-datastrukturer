@@ -1,4 +1,5 @@
 package LABA.uppgift8;
+
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -39,7 +40,6 @@ public class BinarySearchTree<E extends Comparable<E>> {
         printTree(root);
     }
 
-
     private Node<E> root;
     private E deletedData;
 
@@ -48,26 +48,25 @@ public class BinarySearchTree<E extends Comparable<E>> {
     }
 
     public boolean add(E element) {
-        if(root == null) {
+        if (root == null) {
             root = new Node<>(element);
             return true;
         }
         return add(element, root);
 
     }
-
     private boolean add(E element, Node<E> node) {
-        if(element.compareTo(node.data) == 0) {
+        if (element.compareTo(node.data) == 0) {
             return false;
-        } else if(element.compareTo(node.data) < 0) {
-            if(node.left == null) {
+        } else if (element.compareTo(node.data) < 0) {
+            if (node.left == null) {
                 node.left = new Node<E>(element);
                 return true;
             } else {
                 return add(element, node.left);
             }
         } else {
-            if(node.right == null) {
+            if (node.right == null) {
                 node.right = new Node<>(element);
                 return true;
             } else {
@@ -75,17 +74,15 @@ public class BinarySearchTree<E extends Comparable<E>> {
             }
         }
     }
-
     private E find(E target, Node<E> node) {
-        if(node == null) return null;
-        if(target.compareTo(node.data) == 0) return node.data;
+        if (node == null) return null;
+        if (target.compareTo(node.data) == 0) return node.data;
 
-        if(target.compareTo(node.data) < 0) {
+        if (target.compareTo(node.data) < 0) {
             return find(target, node.left);
         }
         return find(target, node.right);
     }
-
     public E find(E target) {
         return find(target, root);
     }
@@ -96,25 +93,25 @@ public class BinarySearchTree<E extends Comparable<E>> {
     }
 
     private Node<E> delete(E target, Node<E> node) {
-        if(node == null) {
+        if (node == null) {
             deletedData = null;
             return null;
         } else {
-            if(target.compareTo(node.data) < 0) {
+            if (target.compareTo(node.data) < 0) {
                 node.left = delete(target, node.left);
                 return node;
-            } else if(target.compareTo(node.data) > 0) {
+            } else if (target.compareTo(node.data) > 0) {
                 node.right = delete(target, node.right);
                 return node;
             } else {
                 deletedData = node.data;
-                if(node.left == null) {
+                if (node.left == null) {
                     return node.right;
-                } else if(node.right == null) {
+                } else if (node.right == null) {
                     return node.left;
                 } else {
                     Node<E> nodeToMove = node.right, parentNodeToMove = node;
-                    if(nodeToMove.left == null) {
+                    if (nodeToMove.left == null) {
                         nodeToMove.left = node.left;
                         return nodeToMove;
                     }
@@ -132,47 +129,42 @@ public class BinarySearchTree<E extends Comparable<E>> {
     }
 
     private void inOrder(Node<E> node, StringBuilder sb) {
-        if(node == null) return;
+        if (node == null) return;
         inOrder(node.left, sb);
         sb.append(node.data.toString()).append(": ");
         inOrder(node.right, sb);
     }
 
     private void preOrder(Node<E> node, StringBuilder sb) {
-        if(node == null) return;
+        if (node == null) return;
         sb.append(node.data.toString()).append(": ");
         preOrder(node.left, sb);
         preOrder(node.right, sb);
     }
 
     private void postOrder(Node<E> node, StringBuilder sb) {
-        if(node == null) return;
+        if (node == null) return;
         postOrder(node.left, sb);
         postOrder(node.right, sb);
         sb.append(node.data.toString()).append(": ");
     }
 
-    public E getNextLargest(E data){
+    public E getNextLarger(E data) {
         return getNextLargest(root, data);
     }
 
-    private E getNextLargest(Node<E> node, E data){
-        if(node==null) return null;
-        if(node.data.compareTo(data) > 0){
-            E nextLargest = getNextLargest(node.left,data);
+    private E getNextLargest(Node<E> node, E data) {
+        if (node == null) return null;
+        if (node.data.compareTo(data) > 0) {
+            E nextLargest = getNextLargest(node.left, data);
             return nextLargest != null ? nextLargest : node.data;
-        }
-        else{
+        } else {
             return getNextLargest(node.right, data);
         }
     }
-    /*          8
-    *         4
-    *       2   6
-    *     1  3 5  7*/
 
     private void printTree(Node<E> node) {
-        if(root == null) {
+        if (root == null) {
             System.out.println("empty");
             return;
         }
@@ -185,7 +177,7 @@ public class BinarySearchTree<E extends Comparable<E>> {
             while (!q.isEmpty() && q.peek().level == level) {
                 State<E> s = q.poll();
                 System.out.print(s + " ");
-                if(s.node != null) {
+                if (s.node != null) {
                     q.offer(new State<>(s.node.left, level + 1));
                     q.offer(new State<>(s.node.right, level + 1));
                 }
@@ -201,17 +193,17 @@ public class BinarySearchTree<E extends Comparable<E>> {
         return sb.toString();
     }
 
+
+    public static void buildTree(BinarySearchTree<Integer> b, int[] v) {
+        for (int data : v)
+            b.add(data);
+    }
+
     public static void main(String[] args) {
         BinarySearchTree<Integer> bst = new BinarySearchTree<>();
-        bst.add(8);
-        bst.add(4);
-        bst.add(6);
-        bst.add(5);
-        bst.add(7);
-        bst.add(2);
-        bst.add(1);
-        bst.add(3);
-        bst.printTree();
-        System.out.println("The number is : " + bst.getNextLargest(4));
+        buildTree(bst, new int[]{30, 20, 40, 15, 25, 35, 45, 10, 17, 22, 27, 32, 37, 42, 47, 16, 23, 28, 39, 49, 29, 51});
+        System.out.println(bst);
+        for (int i = 0; i < 52; i++)
+            System.out.print("" + i + ":" + bst.getNextLarger(i) + " ");
     }
 }

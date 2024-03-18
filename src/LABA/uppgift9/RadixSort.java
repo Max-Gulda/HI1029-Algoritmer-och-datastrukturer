@@ -1,18 +1,42 @@
 package LABA.uppgift9;
 
-import java.util.Arrays;
 import java.util.Random;
 
 public class RadixSort {
-    private static void radixSort(int[] a) { //Den sista kopieringen är onödig, går detta att undvika?
+
+    public static void sort(int[] a) {
+        int[] negative = new int[a.length];
+        int[] positive = new int[a.length];
+        int negativeIndex = 0, positiveIndex = 0;
+        for (int i = 0; i < a.length; i++) {
+            if (a[i] < 0) {
+                negative[negativeIndex++] = -a[i];
+            } else {
+                positive[positiveIndex++] = a[i];
+            }
+        }
+
+        radixSort(negative, negativeIndex);
+        radixSort(positive, positiveIndex);
+
+
+        for (int i = 0; i < negativeIndex; i++) {
+            a[i] = -negative[negativeIndex - 1 - i];
+        }
+        for (int i = 0; i < positiveIndex; i++) {
+            a[negativeIndex + i] = positive[i];
+        }
+    }
+
+    private static void radixSort(int[] a, int length) {
         int maxNumber = findMax(a);
-        int[] output = new int[a.length];
+        int[] output = new int[length];
         int place = 1;
 
         while (maxNumber / place > 0) {
             int[] count = new int[10];
 
-            for (int i = 0; i < a.length; i++) { //Maska ut & addera på platsen
+            for (int i = 0; i < length; i++) { //Maska ut & addera på platsen
                 count[(a[i] / place) % 10]++;
             }
 
@@ -20,14 +44,17 @@ public class RadixSort {
                 count[i] += count[i - 1];
             }
 
-            // Build the output array
-            for (int i = a.length - 1; i >= 0; i--) {
+            for (int i = length - 1; i >= 0; i--) {
                 count[(a[i] / place) % 10]--;
                 output[count[(a[i] / place) % 10]] = a[i];
 
             }
 
-            System.arraycopy(output, 0, a, 0, a.length);
+            int[] temp;
+            temp = a;
+            a = output;
+            output = temp;
+            //System.arraycopy(output, 0, a, 0, length);
 
             place *= 10;
         }
@@ -53,9 +80,9 @@ public class RadixSort {
         Random rand = new Random();
         int[] list = new int[1000000];
         for (int i = 0; i < list.length; i++) {
-            list[i] = rand.nextInt(Integer.MAX_VALUE);
+            list[i] = rand.nextInt();
         }
-        radixSort(list);
+        sort(list);
         long endTime = System.nanoTime();
         double runningTime = (double) (endTime - startTime) / 1000000000;
         if (isArraySorted(list)) System.out.println("Array is sorted!");
